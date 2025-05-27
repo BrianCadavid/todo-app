@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Plus, Check, Trash2, Edit3, User, LogOut, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 
-// Mock Service - Datos falsos para práctica
+// Mock Service - Datos falsos para práctica - IMPORTANTE - ENLA VERSIÓN FINAL NO SE DEBE USAR UN MOCK SERVICE, ELIMINARLO
 const mockService = {
   login: async (username, password) => {
     await new Promise(resolve => setTimeout(resolve, 1000)); // Simular delay
@@ -38,9 +38,11 @@ const mockService = {
     await new Promise(resolve => setTimeout(resolve, 500));
     return { id, ...task };
   },
-  
+  /*
   deleteTask: async (id) => {
     await new Promise(resolve => setTimeout(resolve, 500));
     return true;
-  }
+  }*/
 };
+
+export default mockService;
