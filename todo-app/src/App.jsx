@@ -23,6 +23,13 @@ export default function App() {
 
   const currentService = useMockService ? mockService : apiService;
 
+  // 🔁 Cargar tareas automáticamente al iniciar sesión
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadTasks();
+    }
+  }, [isLoggedIn]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -31,7 +38,7 @@ export default function App() {
       const result = await currentService.login(loginForm.username, loginForm.password);
       setUser(result.user);
       setIsLoggedIn(true);
-      loadTasks();
+      // loadTasks(); ❌ Ya no es necesario aquí
     } catch (error) {
       setLoginError(error.message);
     } finally {
@@ -125,43 +132,63 @@ export default function App() {
   }
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Bienvenido, {user?.username}</h1>
-      <button onClick={handleLogout}>Cerrar sesión</button>
-      <TaskStats tasks={tasks} />
-      <button onClick={() => {
-        setShowTaskForm(!showTaskForm);
-        setTaskForm({ name: '', description: '' });
-        setIsEditing(null);
-      }}>
-        Nueva tarea
-      </button>
-      {showTaskForm && (
-        <TaskForm
-          isEditing={isEditing}
-          taskForm={taskForm}
-          setTaskForm={setTaskForm}
-          handleTaskSubmit={handleTaskSubmit}
-          loading={loading}
-          setShowTaskForm={setShowTaskForm}
-          setIsEditing={setIsEditing}
-        />
-      )}
-      {loading && tasks.length === 0 ? (
-        <p>Cargando tareas...</p>
-      ) : tasks.length === 0 ? (
-        <p>No hay tareas</p>
-      ) : (
-        tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            handleToggleStatus={handleToggleStatus}
-            handleEditTask={handleEditTask}
-            handleDeleteTask={handleDeleteTask}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white px-4 py-6">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Bienvenido, {user?.username}</h1>
+          <button
+            onClick={handleLogout}
+            className="text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-xl transition"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+
+        <TaskStats tasks={tasks} />
+
+        <div className="flex justify-end">
+          <button
+            onClick={() => {
+              setShowTaskForm(!showTaskForm);
+              setTaskForm({ name: '', description: '' });
+              setIsEditing(null);
+            }}
+            className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+          >
+            Nueva tarea
+          </button>
+        </div>
+
+        {showTaskForm && (
+          <TaskForm
+            isEditing={isEditing}
+            taskForm={taskForm}
+            setTaskForm={setTaskForm}
+            handleTaskSubmit={handleTaskSubmit}
+            loading={loading}
+            setShowTaskForm={setShowTaskForm}
+            setIsEditing={setIsEditing}
           />
-        ))
-      )}
+        )}
+
+        {loading && tasks.length === 0 ? (
+          <p className="text-white/70">Cargando tareas...</p>
+        ) : tasks.length === 0 ? (
+          <p className="text-white/70">No hay tareas</p>
+        ) : (
+          <div className="space-y-4">
+            {tasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                handleToggleStatus={handleToggleStatus}
+                handleEditTask={handleEditTask}
+                handleDeleteTask={handleDeleteTask}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
