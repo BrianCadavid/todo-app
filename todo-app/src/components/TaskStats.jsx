@@ -1,5 +1,7 @@
 import React from 'react';
-import { CheckCircle, Check, Clock } from 'lucide-react';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
+import Check from 'lucide-react/dist/esm/icons/check';
+import Clock from 'lucide-react/dist/esm/icons/clock';
 import '../index.css';
 
 export default function TaskStats({ tasks }) {

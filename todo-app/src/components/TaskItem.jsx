@@ -1,5 +1,11 @@
 import React from 'react';
-import { Check, Trash2, Edit3, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import Check from 'lucide-react/dist/esm/icons/check';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Edit3 from 'lucide-react/dist/esm/icons/edit-3';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
+import Clock from 'lucide-react/dist/esm/icons/clock';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+
 import '../index.css';
 
 export default function TaskItem({
