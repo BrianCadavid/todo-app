@@ -80,16 +80,19 @@ export default function App() {
   };
 
   const handleDeleteTask = async (id) => {
-    setLoading(true);
-    try {
-      await currentService.deleteTask(id);
-      setTasks(tasks.filter(t => t.id !== id));
-    } catch (error) {
-      console.error('Error eliminando tarea:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    await currentService.deleteTask(id);
+    // Filtra tareas para actualizar la lista
+    setTasks((prevTasks) => prevTasks.filter((t) => t.id !== id));
+  } catch (error) {
+    console.error('Error eliminando tarea:', error.message);
+    alert('Error eliminando tarea: ' + error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleToggleStatus = async (task) => {
     const newStatus = task.status === 0 ? 1 : 0;

@@ -35,7 +35,7 @@ const apiService = {
   },
 
   getTasks: async () => {
-    const response = await fetch(`${apiService.baseUrl}/tareas`, {
+    const response = await fetch(`${apiService.baseUrl}/Tarea`, {
       headers: apiService.getHeaders()
     });
     if (!response.ok) throw new Error('Error al obtener tareas');
@@ -43,7 +43,7 @@ const apiService = {
   },
 
   createTask: async (task) => {
-    const response = await fetch(`${apiService.baseUrl}/tareas`, {
+    const response = await fetch(`${apiService.baseUrl}/Tarea`, {
       method: 'POST',
       headers: apiService.getHeaders(),
       body: JSON.stringify(task)
@@ -53,7 +53,7 @@ const apiService = {
   },
 
   updateTask: async (id, task) => {
-    const response = await fetch(`${apiService.baseUrl}/tareas/${id}`, {
+    const response = await fetch(`${apiService.baseUrl}/Tarea/${id}`, {
       method: 'PUT',
       headers: apiService.getHeaders(),
       body: JSON.stringify(task)
@@ -63,11 +63,17 @@ const apiService = {
   },
 
   deleteTask: async (id) => {
-    const response = await fetch(`${apiService.baseUrl}/tareas/${id}`, {
+    const response = await fetch(`${apiService.baseUrl}/Tarea/${id}`, {
       method: 'DELETE',
       headers: apiService.getHeaders()
     });
-    if (!response.ok) throw new Error('Error al eliminar tarea');
+
+    if (!response.ok) {
+      const errorMsg = await response.text();
+      throw new Error(`Error al eliminar tarea: ${errorMsg}`);
+    }
+
+    return true;
   }
 };
 
