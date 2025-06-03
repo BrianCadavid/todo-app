@@ -1,5 +1,5 @@
 const apiService = {
-  baseUrl: '/api',
+  baseUrl: 'http://localhost:5122/api',
   token: null,
 
   setToken: (newToken) => {
